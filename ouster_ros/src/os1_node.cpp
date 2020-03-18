@@ -227,6 +227,6 @@ int main(int argc, char** argv) {
                  info.fw_rev.c_str());
 
         // publish packet messages from the sensor
-        return connection_loop(nh, *cli);
+        return connection_loop(n, *cli);
     }
 }
