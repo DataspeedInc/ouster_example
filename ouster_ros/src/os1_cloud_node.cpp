@@ -26,14 +26,14 @@ namespace OS1 = ouster::OS1;
 int main(int argc, char** argv) {
     ros::init(argc, argv, "os1_cloud_node");
     ros::NodeHandle n;
-    ros::NodeHandle nh("~");
+    ros::NodeHandle pn("~");
 
-    auto tf_prefix = nh.param("tf_prefix", std::string{});
+    auto tf_prefix = pn.param("tf_prefix", std::string{});
     if (!tf_prefix.empty()) {
       if (tf_prefix.back() != '/') tf_prefix.append(1, '/');
     }
 
-    auto frame_id = nh.param("frame_id", std::string("os1"));
+    auto frame_id = pn.param("frame_id", std::string("os1"));
     auto sensor_frame = tf_prefix + frame_id;
     auto imu_frame = tf_prefix + frame_id + "_imu";
     auto lidar_frame = tf_prefix + frame_id + "_lidar";

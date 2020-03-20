@@ -129,7 +129,6 @@ int connection_loop(ros::NodeHandle& nh, OS1::client& cli) {
 int main(int argc, char** argv) {
     ros::init(argc, argv, "os1_node");
     ros::NodeHandle n;
-    ros::NodeHandle nh("~");
 
     OS1::sensor_info info{};
     auto srv =
@@ -146,16 +145,16 @@ int main(int argc, char** argv) {
             });
 
     // empty indicates "not set" since roslaunch xml can't optionally set params
-    auto hostname = nh.param("os1_hostname", std::string{});
-    auto udp_dest = nh.param("os1_udp_dest", std::string{});
-    auto lidar_port = nh.param("os1_lidar_port", 7501);
-    auto imu_port = nh.param("os1_imu_port", 7502);
-    auto replay = nh.param("replay", false);
-    auto lidar_mode = nh.param("lidar_mode", std::string{});
-    auto timestamp_mode = nh.param("timestamp_mode", std::string{});
+    auto hostname = n.param("os1_hostname", std::string{});
+    auto udp_dest = n.param("os1_udp_dest", std::string{});
+    auto lidar_port = n.param("os1_lidar_port", 7501);
+    auto imu_port = n.param("os1_imu_port", 7502);
+    auto replay = n.param("replay", false);
+    auto lidar_mode = n.param("lidar_mode", std::string{});
+    auto timestamp_mode = n.param("timestamp_mode", std::string{});
 
     // fall back to metadata file name based on hostname, if available
-    auto meta_file = nh.param("metadata", std::string{});
+    auto meta_file = n.param("metadata", std::string{});
     if (!meta_file.size() && hostname.size()) meta_file = hostname + ".json";
 
     if (lidar_mode.size()) {
