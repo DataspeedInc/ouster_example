@@ -129,6 +129,7 @@ int connection_loop(ros::NodeHandle& nh, OS1::client& cli) {
 int main(int argc, char** argv) {
     ros::init(argc, argv, "os1_node");
     ros::NodeHandle n;
+    ros::NodeHandle pn("~");
 
     OS1::sensor_info info{};
     auto srv =
@@ -149,7 +150,7 @@ int main(int argc, char** argv) {
     auto udp_dest = n.param("os1_udp_dest", std::string{});
     auto lidar_port = n.param("os1_lidar_port", 7501);
     auto imu_port = n.param("os1_imu_port", 7502);
-    auto replay = n.param("replay", false);
+    auto replay = pn.param("replay", false);
     auto lidar_mode = n.param("lidar_mode", std::string{});
     auto timestamp_mode = n.param("timestamp_mode", std::string{});
 
