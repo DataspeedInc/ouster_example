@@ -32,7 +32,7 @@ namespace OS1 = ouster::OS1;
 
 int main(int argc, char** argv) {
     ros::init(argc, argv, "img_node");
-    ros::NodeHandle nh("~");
+    ros::NodeHandle nh("");
 
     ouster_ros::OS1ConfigSrv cfg{};
     auto client = nh.serviceClient<ouster_ros::OS1ConfigSrv>("os1_config");

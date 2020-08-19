@@ -146,16 +146,16 @@ int main(int argc, char** argv) {
             });
 
     // empty indicates "not set" since roslaunch xml can't optionally set params
-    auto hostname = n.param("os1_hostname", std::string{});
-    auto udp_dest = n.param("os1_udp_dest", std::string{});
-    auto lidar_port = n.param("os1_lidar_port", 7501);
-    auto imu_port = n.param("os1_imu_port", 7502);
+    auto hostname = pn.param("os1_hostname", std::string{});
+    auto udp_dest = pn.param("os1_udp_dest", std::string{});
+    auto lidar_port = pn.param("os1_lidar_port", 7501);
+    auto imu_port = pn.param("os1_imu_port", 7502);
     auto replay = pn.param("replay", false);
-    auto lidar_mode = n.param("lidar_mode", std::string{});
-    auto timestamp_mode = n.param("timestamp_mode", std::string{});
+    auto lidar_mode = pn.param("lidar_mode", std::string{});
+    auto timestamp_mode = pn.param("timestamp_mode", std::string{});
 
     // fall back to metadata file name based on hostname, if available
-    auto meta_file = n.param("metadata", std::string{});
+    auto meta_file = pn.param("metadata", std::string{});
     if (!meta_file.size() && hostname.size()) meta_file = hostname + ".json";
 
     if (lidar_mode.size()) {
