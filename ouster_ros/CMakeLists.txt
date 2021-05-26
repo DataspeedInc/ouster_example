@@ -25,7 +25,11 @@ find_package(
              tf2_geometry_msgs)
 
 # ==== Options ====
-set(CMAKE_CXX_STANDARD 14)
+if("$ENV{ROS_DISTRO}" STRGREATER "melodic")
+  set(CMAKE_CXX_STANDARD 17)
+else()
+  set(CMAKE_CXX_STANDARD 14)
+endif()
 add_compile_options(-Wall -Wextra -Werror)
 option(CMAKE_POSITION_INDEPENDENT_CODE "Build position independent code." ON)
 

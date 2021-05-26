@@ -4,6 +4,13 @@ cmake_minimum_required(VERSION 3.1.0)
 project(ouster_client VERSION 0.2.0)
 set(ouster_client_VERSION_SUFFIX "-dev0")
 
+# ==== C++ Version ====
+if("$ENV{ROS_DISTRO}" STRGREATER "melodic")
+  set(CMAKE_CXX_STANDARD 17)
+else()
+  set(CMAKE_CXX_STANDARD 14)
+endif()
+
 # ==== Requirements ====
 find_package(Eigen3 REQUIRED)
 find_package(jsoncpp REQUIRED)

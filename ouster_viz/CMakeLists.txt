@@ -3,6 +3,13 @@ cmake_minimum_required(VERSION 3.1.0)
 # ==== Project Name ====
 project(ouster_viz)
 
+# ==== C++ Version ====
+if("$ENV{ROS_DISTRO}" STRGREATER "melodic")
+  set(CMAKE_CXX_STANDARD 17)
+else()
+  set(CMAKE_CXX_STANDARD 14)
+endif()
+
 # ==== Requirements ====
 set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
