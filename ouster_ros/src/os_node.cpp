@@ -105,10 +105,11 @@ int connection_loop(ros::NodeHandle& nh, sensor::client& cli,
 
 int main(int argc, char** argv) {
     ros::init(argc, argv, "os_node");
+    ros::NodeHandle n;
     ros::NodeHandle nh("~");
 
     std::string published_metadata;
-    auto srv = nh.advertiseService<OSConfigSrv::Request, OSConfigSrv::Response>(
+    auto srv = n.advertiseService<OSConfigSrv::Request, OSConfigSrv::Response>(
         "os_config", [&](OSConfigSrv::Request&, OSConfigSrv::Response& res) {
             if (published_metadata.size()) {
                 res.metadata = published_metadata;
@@ -209,6 +210,6 @@ int main(int argc, char** argv) {
                  info.sn.c_str(), info.fw_rev.c_str());
 
         // publish packet messages from the sensor
-        return connection_loop(nh, *cli, info);
+        return connection_loop(n, *cli, info);
     }
 }

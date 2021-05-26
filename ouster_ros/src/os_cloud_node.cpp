@@ -27,6 +27,7 @@ namespace sensor = ouster::sensor;
 
 int main(int argc, char** argv) {
     ros::init(argc, argv, "os_cloud_node");
+    ros::NodeHandle n;
     ros::NodeHandle nh("~");
 
     auto tf_prefix = nh.param("tf_prefix", std::string{});
@@ -36,7 +37,7 @@ int main(int argc, char** argv) {
     auto lidar_frame = tf_prefix + "os_lidar";
 
     ouster_ros::OSConfigSrv cfg{};
-    auto client = nh.serviceClient<ouster_ros::OSConfigSrv>("os_config");
+    auto client = n.serviceClient<ouster_ros::OSConfigSrv>("os_config");
     client.waitForExistence();
     if (!client.call(cfg)) {
         ROS_ERROR("Calling config service failed");
@@ -49,8 +50,8 @@ int main(int argc, char** argv) {
 
     auto pf = sensor::get_format(info);
 
-    auto lidar_pub = nh.advertise<sensor_msgs::PointCloud2>("points", 10);
-    auto imu_pub = nh.advertise<sensor_msgs::Imu>("imu", 100);
+    auto lidar_pub = n.advertise<sensor_msgs::PointCloud2>("points", 10);
+    auto imu_pub = n.advertise<sensor_msgs::Imu>("imu", 100);
 
     auto xyz_lut = ouster::make_xyz_lut(info);
 
@@ -77,9 +78,9 @@ int main(int argc, char** argv) {
         imu_pub.publish(ouster_ros::packet_to_imu_msg(p, imu_frame, pf));
     };
 
-    auto lidar_packet_sub = nh.subscribe<PacketMsg, const PacketMsg&>(
+    auto lidar_packet_sub = n.subscribe<PacketMsg, const PacketMsg&>(
         "lidar_packets", 2048, lidar_handler);
-    auto imu_packet_sub = nh.subscribe<PacketMsg, const PacketMsg&>(
+    auto imu_packet_sub = n.subscribe<PacketMsg, const PacketMsg&>(
         "imu_packets", 100, imu_handler);
 
     // publish transforms
