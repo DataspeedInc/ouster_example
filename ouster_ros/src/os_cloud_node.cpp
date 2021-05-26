@@ -30,11 +30,9 @@ int main(int argc, char** argv) {
     ros::NodeHandle n;
     ros::NodeHandle nh("~");
 
-    auto tf_prefix = nh.param("tf_prefix", std::string{});
-    if (!tf_prefix.empty() && tf_prefix.back() != '/') tf_prefix.append("/");
-    auto sensor_frame = tf_prefix + "os_sensor";
-    auto imu_frame = tf_prefix + "os_imu";
-    auto lidar_frame = tf_prefix + "os_lidar";
+    auto sensor_frame = nh.param("frame_id", std::string("ouster"));
+    auto imu_frame = sensor_frame + "_imu";
+    auto lidar_frame = sensor_frame + "_lidar";
 
     ouster_ros::OSConfigSrv cfg{};
     auto client = n.serviceClient<ouster_ros::OSConfigSrv>("os_config");
